@@ -1,19 +1,23 @@
+# app.py
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from core import db, login_manager
+from core.models import User
+from core.auth import auth_bp
+from core.shortener import shortener_bp
 
 app = Flask(__name__)
 app.config.from_pyfile("config.py")
 
-db = SQLAlchemy(app)
-login_manager = LoginManager(app)
-login_manager.login_view = "login"
+# Инициализируем расширения
+db.init_app(app)
+login_manager.init_app(app)
+login_manager.login_view = "auth.login"
 
-# from auth import auth_bp
-# from shortener import shortener_bp
+# Flask-Login загрузка пользователя
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
-# app.register_blueprint(auth_bp)
-# app.register_blueprint(shortener_bp)
-
-if __name__ == "__main__":
-    app.run(debug=True)
+# Регистрируем блюпринты
+app.register_blueprint(auth_bp)
+app.register_blueprint(shortener_bp)
