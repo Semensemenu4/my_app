@@ -1,7 +1,7 @@
 
 1. Архитектура и технологии
-Backend: Python + Flask (или FastAPI, но для простоты возьмём Flask)
-База данных: SQLite (локально) / PostgreSQL (если хочешь в продакшн)
+Backend: Python + Flask
+База данных: SQLite (локально)
 ORM: SQLAlchemy (для удобства работы с БД)
 Авторизация: Flask-Login (для сессий и пользователей)
 Шаблоны: Jinja2 (встроено во Flask)
